@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 2018-10-28, 13:18:12
+    Author     : Danielczyk
+*/
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+body {
+  background-color: #175690;
+  font-family: 'Rubik', sans-serif;
+}
+.login-box {
+    margin: 0 auto;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 3px #000;
+    overflow: hidden;
+    position: relative;
+}
+.login-box-header {
+  color: #666;
+  font-size: 34px;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.login-box-social {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 20px
+}
+.login-box-social h4 {
+  color: #666;
+  font-weight: normal;
+  margin: 30px 0 20px;
+  text-align: center;
+}
+.login-box-social ul {
+  display: block;
+}
+.login-box-social ul li {
+  list-style: none;
+  float: left;
+  width: 30%;
+  margin: 0 1%;
+}
+.login-box-social ul li a {
+  display: inline-block;
+ font-size: 24px;
+ text-decoration: none;
+ color: #fff;
+ padding: 6px;
+ display: block;
+ text-align: center;
+ -moz-border-radius: 4px;
+ -webkit-border-radius: 4px;
+ border-radius: 4px;
+ -moz-transition: all 0.4s ease-in-out;
+ -o-transition: all 0.4s ease-in-out;
+ -webkit-transition: all 0.4s ease-in-out;
+ transition: all 0.4s ease-in-out;
+}
+.login-box-social ul li a:hover {
+  opacity: 0.8;
+}
+
+.facebook {
+  background: #3a589a;
+}
+.twitter {
+  background: #4099ff;
+}
+.google {
+  background: #e9544f;
+}

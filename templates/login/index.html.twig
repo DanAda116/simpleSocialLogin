@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Simple Social Login Page{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Please Login</h1>
+    <div class="login-box">
+        <div class="login-box-header">Login</div>
+        <div class="login-box-social">
+            <h4>Connect with<h4>
+            <ul>
+                <li>
+                    <a href="#" class="facebook">
+                        <span class="fa fa-facebook-official"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="twitter">
+                        <span class="fa fa-twitter"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="google">
+                        <span class="fa fa-google"/>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
