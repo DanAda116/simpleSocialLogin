@@ -1,0 +1,29 @@
+<nav class="navbar navbar-light bg-light mb-5">
+    <div class="container">
+        <ul class="nav">
+            <li class="nav-item">
+                <span class="navbar-brand mb-0 h1">SocialPosts</span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Posts</a>
+            </li>
+        </ul>
+        <ul class="nav justify-content-end">
+            {% if data is not empty %}
+                <li class="nav-item">
+                    <span class="navbar-text">Zalogowany jako <b>{{ data.fullname }}</b></span>
+                </li>
+                <li class="nav-item">
+                    <img class="img-thumbnail rounded-circle" width="40" height="40" src="{{ data.avatar_img }}"/>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('logout') }}">Logout</a>
+                </li>
+            {% else%}
+                <li class="nav-item">
+                    <span class="navbar-text">Zaloguj się</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

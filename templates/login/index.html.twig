@@ -3,20 +3,10 @@
 {% block title %}Simple Social Login Page{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Please Login</h1>
     <div class="login-box">
         <div class="login-box-header">Login</div>
         <div class="login-box-social">
             {% if data is not empty %}
-                <div class="row">
-                    <h4>Welcome {{ data.fullname }}</h4>
-                </div>
-                <div class="row form-group">
-                    <img class="img-circle center-block" src="{{ data.avatar_img }}"/>
-                </div>
-                <div class="row text-center">
-                    <a href="{{ path('logout') }}" class="btn btn-info" role="button">Logout</a>
-                </div>
             {% else %}
             <h4>Connect with<h4>
             <ul>
