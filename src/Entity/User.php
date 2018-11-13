@@ -37,6 +37,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $avatarImage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +128,22 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getAvatarImage(): ?string
+    {
+        $avatarImage = $this->avatarImage;
+
+        $avatarImage = 'default_profile_avatar.png';
+
+        return $avatarImage;
+    }
+
+    public function setAvatarImage(string $avatarImage): self
+    {
+        $this->avatarImage = $avatarImage;
 
         return $this;
     }

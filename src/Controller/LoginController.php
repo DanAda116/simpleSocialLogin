@@ -64,7 +64,6 @@ class LoginController extends Controller
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
-//        var_dump($error->getMessageKey());
 
         return $this->render('login/login.html.twig', [
             'error' => $error,

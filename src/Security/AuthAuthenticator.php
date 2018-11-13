@@ -16,9 +16,11 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class AuthAuthenticator extends AbstractFormLoginAuthenticator
 {
+    use TargetPathTrait;
     /**
      * @var UserRepository
      */
@@ -77,19 +79,12 @@ class AuthAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        if($targetPath = $this->getTargetPath($request->getSession(), $providerKey)){
+            return new RedirectResponse($targetPath);
+        }
+
         return new RedirectResponse($this->router->generate('home'));
     }
-
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-        // todo
-    }
-
-    public function supportsRememberMe()
-    {
-        // todo
-    }
-
     /**
      * Return the URL to the login page.
      *

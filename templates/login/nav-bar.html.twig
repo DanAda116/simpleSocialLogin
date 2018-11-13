@@ -9,12 +9,15 @@
             </li>
         </ul>
         <ul class="nav justify-content-end">
-            {% if data is not empty or data is not defined %}
+            {% if is_granted('ROLE_USER') %}
                 <li class="nav-item" style="padding-right: 10px">
-                    <span class="navbar-text">Logged as <b>{{ data.fullname }}</b></span>
+                    <span class="navbar-text">Logged as <b>{{ app.user.email}}</b></span>
                 </li>
-                <li class="nav-item">
-                    <img class="img-thumbnail rounded-circle" width="40" height="40" src="{{ data.avatar_img }}"/>
+                <li class="nav-item dropdown">
+                    <img class="img-thumbnail rounded-circle dropdown-toggle pointer" data-toggle="dropdown" width="40" height="40" src="{{ asset("assets/image/#{app.user.avatarImage}")}}"/>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('app_account') }}">Account</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ path('logout') }}">Logout</a>

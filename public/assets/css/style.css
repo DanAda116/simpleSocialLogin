@@ -99,3 +99,8 @@ body {
 .login-form {
     margin: 20px;
 }
+
+
+/* Utility Classes*/
+
+.pointer {cursor: pointer;}

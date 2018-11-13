@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-header">Login</div>
         <div class="card-body login-box-social">
-            {% if data is not empty %}
+            {% if is_granted('ROLE_USER') %}
             {% else %}
             <h4>Connect with</h4>
             <ul>
