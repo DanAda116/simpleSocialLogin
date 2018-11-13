@@ -70,8 +70,13 @@ class LoginService
             'fullname' => $info->getDisplayName(),
             'avatar_img' => $info->getImage()->url
         ];
-
+        dump($info);
 
         return $data;
+    }
+
+    private function saveGoogleUserCredentials(){
+
+//        $this->getClientInfo($this->google_client);
     }
 }

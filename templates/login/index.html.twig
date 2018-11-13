@@ -3,12 +3,12 @@
 {% block title %}Simple Social Login Page{% endblock %}
 
 {% block body %}
-    <div class="login-box">
-        <div class="login-box-header">Login</div>
-        <div class="login-box-social">
+    <div class="card">
+        <div class="card-header">Login</div>
+        <div class="card-body login-box-social">
             {% if data is not empty %}
             {% else %}
-            <h4>Connect with<h4>
+            <h4>Connect with</h4>
             <ul>
                 <li>
                     <a href="#" class="facebook">
@@ -26,7 +26,8 @@
                     </a>
                 </li>
             </ul>
-            {% endif %}
         </div>
+        <p class="text-center h4">Or just Sign In</p>
+        {% endif %}
     </div>
 {% endblock %}

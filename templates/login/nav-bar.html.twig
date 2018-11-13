@@ -2,16 +2,16 @@
     <div class="container">
         <ul class="nav">
             <li class="nav-item">
-                <span class="navbar-brand mb-0 h1">SocialPosts</span>
+                <a href="{{ path('home') }}" class="navbar-brand mb-0 h1">SocialPosts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Posts</a>
+                <a class="nav-link" href="{{ path('post') }}">Posts</a>
             </li>
         </ul>
         <ul class="nav justify-content-end">
-            {% if data is not empty %}
-                <li class="nav-item">
-                    <span class="navbar-text">Zalogowany jako <b>{{ data.fullname }}</b></span>
+            {% if data is not empty or data is not defined %}
+                <li class="nav-item" style="padding-right: 10px">
+                    <span class="navbar-text">Logged as <b>{{ data.fullname }}</b></span>
                 </li>
                 <li class="nav-item">
                     <img class="img-thumbnail rounded-circle" width="40" height="40" src="{{ data.avatar_img }}"/>
@@ -21,7 +21,7 @@
                 </li>
             {% else%}
                 <li class="nav-item">
-                    <span class="navbar-text">Zaloguj się</span>
+                    <a href="{{ path('login') }}" class="nav-link">Sign In</a>
                 </li>
             {% endif %}
         </ul>

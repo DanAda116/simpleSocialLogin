@@ -1,13 +1,25 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\AuthAuthenticator
+            logout:
+                path: logout
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 2592000 # 30 days
 
             # activate different ways to authenticate
 
@@ -21,4 +33,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+#         - { path: ^/post, roles: ROLE_USER }
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt

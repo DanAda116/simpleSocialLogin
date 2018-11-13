@@ -4,14 +4,14 @@ namespace App\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\LoginService;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends Controller
 {
-    /**
-     * @Route("/", name="home")
-     */
+
     public function index(LoginService $login)
     {
 
@@ -21,7 +21,6 @@ class LoginController extends Controller
             $client = $login->getClient();
             $info = $login->getClientInfo($client);
         }
-
 
         return $this->render('login/index.html.twig', [
             'data' => $info
@@ -43,7 +42,8 @@ class LoginController extends Controller
      */
     public function googleAuth(LoginService $login)
     {
-        $login->getClient();
+        $client = $login->getClient();
+        $login->getClientInfo($client);
 
         return $this->render('login/loader.html.twig', [
             'host' => $_SERVER['HTTP_HOST']
@@ -55,9 +55,21 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        if(isset($_SESSION))
-            session_destroy();
+        throw new Exception('Something go wrong');
+    }
 
-        return $this->redirectToRoute('home');
+    public function login(AuthenticationUtils $authenticationUtils)
+    {
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+//        var_dump($error->getMessageKey());
+
+        return $this->render('login/login.html.twig', [
+            'error' => $error,
+            'last_username' => $lastUsername,
+            'data' => []
+        ]);
     }
 }
