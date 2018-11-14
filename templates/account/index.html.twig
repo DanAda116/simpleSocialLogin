@@ -3,5 +3,30 @@
 {% block title %}Account Settings{% endblock %}
 
 {% block body %}
-<h1>Manage your account</h1>
+    <div class="card" id="account-card">
+        <div class="card-body">
+            <div class="card-title">
+                <h3 class="card-title">Manage your account {{ app.user.firstName }}</h3>
+            </div>
+            <nav>
+                <div class="nav nav-tabs shadow-sm" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Personal Info</a>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-security" role="tab" aria-controls="nav-security" aria-selected="false">Security</a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
+                </div>
+            </nav>
+            <div class="tab-content shadow-sm" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+                    <p class="h4">Your basic information</p>
+                    <hr>
+                </div>
+                <div class="tab-pane fade" id="nav-security" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <p>Security</p>
+                </div>
+                <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+                    <p>Settings</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

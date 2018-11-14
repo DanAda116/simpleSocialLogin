@@ -19,12 +19,14 @@ class LoginController extends Controller
 
         if(isset($_SESSION['token'])) {
             $client = $login->getClient();
-            $info = $login->getClientInfo($client);
+            $login->getRestInfo($client);
+            $login->getClientInfo($client);
+            dd($this->getUser()->getFirstName());
         }
 
-        return $this->render('login/index.html.twig', [
-            'data' => $info
-        ]);
+
+
+        return $this->render('login/index.html.twig');
     }
 
     /**
@@ -55,7 +57,7 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        throw new Exception('Something go wrong');
+        throw new Exception('Something went wrong');
     }
 
     public function login(AuthenticationUtils $authenticationUtils)
