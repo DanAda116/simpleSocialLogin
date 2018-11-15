@@ -14,7 +14,7 @@
                     <span class="navbar-text">Logged as <b>{{ app.user.email}}</b></span>
                 </li>
                 <li class="nav-item dropdown">
-                    <img class="img-thumbnail rounded-circle dropdown-toggle pointer" data-toggle="dropdown" width="40" height="40" src="{{ asset("assets/image/#{app.user.avatarImage}")}}"/>
+                    <img class="img-thumbnail rounded-circle dropdown-toggle pointer" data-toggle="dropdown" width="40" height="40" src="{{ asset("uploads/avatars/#{app.user.avatarImage}")}}"/>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ path('app_account') }}">Account</a>
                     </div>

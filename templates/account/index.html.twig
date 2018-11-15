@@ -1,3 +1,5 @@
+{#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Account Settings{% endblock %}
@@ -19,14 +21,41 @@
                 <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
                     <p class="h4">Your basic information</p>
                     <hr>
+                    <div class="basic-info-box w-50">
+                        <label class="font-weight-bold" for="name">Name</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" aria-label="name" value="{{ app.user.firstName }}">
+                        </div>
+                        <label class="font-weight-bold" for="email">Email Address</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" aria-label="email" value="{{ app.user.email }}">
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="nav-security" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <p>Security</p>
+                    <p class="h4">Change your password</p>
+                    <hr>
                 </div>
                 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
-                    <p>Settings</p>
+                    <p class="h4">Change your avatar</p>
+                    <hr>
+                    <img src="{{ asset("uploads/avatars/#{app.user.avatarImage}")}}" alt="Avatar image" width="200" class="img-thumbnail">
+                    <div class="w-25 mt-5 mb-3">
+                        {{ form_start(form) }}
+                        <div class="custom-file mb-3">
+                            {{ form_row(form.avatarImage) }}
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <p class="text-success"><small id="file-info"></small></p>
+                        {{ form_row(form.save) }}
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+
 {% endblock %}

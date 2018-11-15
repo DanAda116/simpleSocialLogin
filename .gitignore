@@ -1,4 +1,6 @@
-./idea
+./idea/
+
+/public/uploads/
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/

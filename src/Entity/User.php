@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -39,6 +40,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Image(
+     *     maxSize="3M",
+     *     mimeTypes={"image/jpeg", "image/png"},
+     *     maxHeight="512",
+     *     maxWidth="512",
+     *  )
      */
     private $avatarImage;
 
@@ -134,11 +141,11 @@ class User implements UserInterface
 
     public function getAvatarImage(): ?string
     {
-        $avatarImage = $this->avatarImage;
-
-        $avatarImage = 'default_profile_avatar.png';
-
-        return $avatarImage;
+        if(!$this->avatarImage) {
+            $avatarImage = $this->avatarImage;
+            $avatarImage = 'default_profile_avatar.png';
+        }
+        return $this->avatarImage;
     }
 
     public function setAvatarImage(string $avatarImage): self

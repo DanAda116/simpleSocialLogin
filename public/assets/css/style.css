@@ -109,7 +109,6 @@ body {
 
 #nav-tabContent {
     background-color: #FFFFFF;
-    height: 50vh;
     border: 1px solid #e2e2e2;
     border-top: 0;
     padding-top: 25px;
@@ -138,4 +137,11 @@ body {
 
 #account-card {
     background: #f0f3f3;
+}
+.basic-info-box input {
+    background: #f0f3f3;
+    border: 0;
+}
+.custom-file-label {
+    overflow: hidden;
 }
