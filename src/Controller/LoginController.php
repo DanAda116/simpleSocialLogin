@@ -14,17 +14,10 @@ class LoginController extends Controller
 
     public function index(LoginService $login)
     {
-
-        $info = [];
-
         if(isset($_SESSION['token'])) {
             $client = $login->getClient();
-            $login->getRestInfo($client);
             $login->getClientInfo($client);
-            dd($this->getUser()->getFirstName());
         }
-
-
 
         return $this->render('login/index.html.twig');
     }
