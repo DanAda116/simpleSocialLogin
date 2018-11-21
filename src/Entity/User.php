@@ -37,7 +37,7 @@ class User implements UserInterface
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $password;
 
@@ -52,6 +52,11 @@ class User implements UserInterface
      * @Groups("main")
      */
     private $avatarImage;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $googleId;
 
     public function getId(): ?int
     {
@@ -155,6 +160,18 @@ class User implements UserInterface
     public function setAvatarImage(string $avatarImage): self
     {
         $this->avatarImage = $avatarImage;
+
+        return $this;
+    }
+
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    public function setGoogleId(?string $googleId): self
+    {
+        $this->googleId = $googleId;
 
         return $this;
     }

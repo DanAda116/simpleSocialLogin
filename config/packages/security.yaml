@@ -15,6 +15,8 @@ security:
             guard:
                 authenticators:
                     - App\Security\AuthAuthenticator
+                    - App\Security\GoogleAuthenticator
+                entry_point: App\Security\AuthAuthenticator
             logout:
                 path: logout
             remember_me:

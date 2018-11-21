@@ -3,19 +3,10 @@
 namespace App\Services;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Google_Client;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginService
 {
@@ -25,34 +16,29 @@ class LoginService
     private $google_client;
     private $projectDir;
     /**
-     * @var TokenStorage
+     * @var EntityManagerInterface
      */
-    private $tokenStorage;
+    private $entityManager;
     /**
-     * @var Session
+     * @var UploadService
      */
-    private $session;
+    private $uploadService;
     /**
-     * @var EventDispatcher
+     * @var ParameterBagInterface
      */
-    private $eventDispatcher;
-    /**
-     * @var Request
-     */
-    private $request;
-    /**
-     * @var CsrfTokenManagerInterface
-     */
-    private $csrfTokenManager;
+    private $parameterBag;
 
     /**
      * LoginService constructor.
      * @param Google_Client $google_client
      * @param $projectDir
+     * @param EntityManagerInterface $entityManager
+     * @param UploadService $uploadService
+     * @param ParameterBagInterface $parameterBag
      * @throws \Google_Exception
      */
 
-    public function __construct(Google_Client $google_client, $projectDir, TokenStorageInterface $tokenStorage, SessionInterface $session, EventDispatcherInterface $eventDispatcher, RequestStack $request, CsrfTokenManagerInterface $csrfTokenManager)
+    public function __construct(Google_Client $google_client, $projectDir, EntityManagerInterface $entityManager, UploadService $uploadService, ParameterBagInterface $parameterBag)
     {
         $this->projectDir = $projectDir;
 
@@ -64,13 +50,9 @@ class LoginService
             'email'
         ]));
         $this->google_client->setRedirectUri('http://localhost:8000/auth');
-
-
-        $this->tokenStorage = $tokenStorage;
-        $this->session = $session;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->request = $request->getCurrentRequest();
-        $this->csrfTokenManager = $csrfTokenManager;
+        $this->entityManager = $entityManager;
+        $this->uploadService = $uploadService;
+        $this->parameterBag = $parameterBag;
     }
 
 
@@ -82,10 +64,6 @@ class LoginService
 
     public function getClient()
     {
-
-        if (!isset($_SESSION))
-            session_start();
-
         if (isset($_GET['code'])) {
 
             $token = $this->google_client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -117,22 +95,41 @@ class LoginService
         $data = [
             'fullname' => $info->getDisplayName(),
             'avatar_img' => $info->getImage()->url,
-            'email' => $info->getEmails()[0]->value
+            'email' => $info->getEmails()[0]->value,
+            'id' => $info->getId()
         ];
 
+        return $data;
+    }
+
+    public function createUserFromGoogle($data)
+    {
         $user = new User();
+
         $user->setEmail($data['email']);
         $user->setFirstName($data['fullname']);
-        $user->setAvatarImage($data['avatar_img']);
 
-        $token = new UsernamePasswordToken($user, $data, 'main', $user->getRoles());
+        $fileName = $this->saveAvatarImage($data['avatar_img']);
 
-        $this->tokenStorage->setToken($this->csrfTokenManager->getToken('example')->getId(), $token);
+        $user->setAvatarImage($fileName);
+        $user->setGoogleId($data['id']);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
-        $this->session->set('_security_main', serialize($token));
+        return $user;
+    }
 
+    private function saveAvatarImage($url)
+    {
+        $content = file_get_contents($url);
 
-        $this->eventDispatcher->dispatch("security.interactive_login", new InteractiveLoginEvent($this->request, $token));
+        $fileName = md5(uniqid()).'.jpg';
+        $file = $this->parameterBag->get('avatarDirectory').'/'.$fileName;
+        $fp = fopen($file, "w");
+        fwrite($fp, $content);
+        fclose($fp);
+
+        return $fileName;
     }
 }
 

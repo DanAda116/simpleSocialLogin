@@ -14,10 +14,11 @@ class LoginController extends Controller
 
     public function index(LoginService $login)
     {
-        if(isset($_SESSION['token'])) {
-            $client = $login->getClient();
-            $login->getClientInfo($client);
-        }
+//        if(isset($_SESSION['token'])) {
+//            $client = $login->getClient();
+//            $login->getClientInfo($client);
+//            dump($_SESSION['token']);
+//        }
 
         return $this->render('login/index.html.twig');
     }
@@ -37,8 +38,8 @@ class LoginController extends Controller
      */
     public function googleAuth(LoginService $login)
     {
-        $client = $login->getClient();
-        $login->getClientInfo($client);
+//        $client = $login->getClient();
+//        $login->getClientInfo($client);
 
         return $this->render('login/loader.html.twig', [
             'host' => $_SERVER['HTTP_HOST']

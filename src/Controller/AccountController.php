@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserAvatar;
 use App\Services\UploadService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,10 +54,12 @@ class AccountController extends BaseController
     }
 
     /**
+     * @Security("is_authenticated()")
      * @Route("/api/account", name="api_account")
      */
     public function accountAPI()
     {
+
         $user = $this->getUser();
 
         return $this->json($user, 200, [], [
