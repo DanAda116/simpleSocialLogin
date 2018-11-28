@@ -138,10 +138,20 @@ body {
 #account-card {
     background: #f0f3f3;
 }
-.basic-info-box input {
+.account-input-form input {
     background: #f0f3f3;
     border: 0;
 }
 .custom-file-label {
     overflow: hidden;
+}
+/* Posts */
+
+.posts li {
+    margin: 10px 0;
+    border-radius: 5px;
+    height: 100px;
+}
+.avatar {
+    width: 200px;
 }

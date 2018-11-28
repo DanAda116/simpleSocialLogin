@@ -11,14 +11,20 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixture extends Fixture
 {
+    public const USER_REFERENCE = 'user-fixtures-reference';
+
     /**
      * @var UserPasswordEncoderInterface
      */
+
+    public $usersFixtures;
+
     private $userPasswordEncoder;
     private $names = [
         'Dans',
@@ -29,6 +35,8 @@ class UserFixture extends Fixture
         'Mike',
         'Tonny'
     ];
+
+
 
     public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
     {
@@ -52,9 +60,16 @@ class UserFixture extends Fixture
                $user,
                'test'
             ));
-            $user->setAvatarImage($user->getAvatarImage());
+            $user->setAvatarImage('default_profile_avatar.png');
+
+
             $manager->persist($user);
+            $manager->flush();
+
+            $this->addReference(self::USER_REFERENCE.$i, $user);
         }
-        $manager->flush();
+
     }
+
+
 }

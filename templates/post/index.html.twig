@@ -1,4 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<h1>PostController</h1>
+<div class="card">
+    <div class="card-header">Users Posts</div>
+    <div class="card-body">
+        <ul class="list-group posts">
+            {% for post in posts %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column avatar align-items-center">
+                    <img src="{{ asset("uploads/avatars/#{post.author.avatarImage}") }}" width="50" alt="Users Image">
+                    <small class="font-italic mt-2">{{ post.author.firstName }}</small>
+                </div>
+                <div class="ml-3">
+                    {{ post.content }}
+                </div>
+                <div class="ml-3">
+                    <span class="badge badge-primary">{{ post.createdAt | date('H:m:s') }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

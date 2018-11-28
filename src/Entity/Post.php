@@ -27,9 +27,11 @@ class Post
     private $created_at;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
 
     public function getId(): ?int
     {
@@ -60,15 +62,16 @@ class Post
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(string $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 
         return $this;
     }
+
 }

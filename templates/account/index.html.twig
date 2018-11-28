@@ -1,4 +1,4 @@
-{#{% form_theme form 'bootstrap_4_layout.html.twig' %}#}
+{% form_theme formPassword 'bootstrap_4_layout.html.twig' %}
 
 {% extends 'base.html.twig' %}
 
@@ -9,19 +9,23 @@
         <div class="card-body">
             <div class="card-title">
                 <h3 class="card-title">Manage your account {{ app.user.firstName }}</h3>
+                {% if activeTab is defined %}
+                    {{ activeTab }}
+                {% endif %}
             </div>
             <nav>
                 <div class="nav nav-tabs shadow-sm" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Personal Info</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-security" role="tab" aria-controls="nav-security" aria-selected="false">Security</a>
-                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
+                    <a class="nav-item nav-link" id="nav-security-tab" data-toggle="tab" href="#nav-security" role="tab" aria-controls="nav-security" aria-selected="false">Security</a>
+                    <a class="nav-item nav-link" id="nav-avatar-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-settings" aria-selected="false">Settings</a>
                 </div>
             </nav>
             <div class="tab-content shadow-sm" id="nav-tabContent">
+                {# SECTION BASIC INFO#}
                 <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
                     <p class="h4">Your basic information</p>
                     <hr>
-                    <div class="basic-info-box w-50">
+                    <div class="account-input-form w-50">
                         <label class="font-weight-bold" for="name">Name</label>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" aria-label="name" value="{{ app.user.firstName }}">
@@ -32,23 +36,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-security" role="tabpanel" aria-labelledby="nav-profile-tab">
+                {# SECTION PASSWORD #}
+                <div class="tab-pane fade" id="nav-security" role="tabpanel" aria-labelledby="nav-security-tab">
                     <p class="h4">Change your password</p>
                     <hr>
+                    {% for message in app.flashes('passwordChangeSuccess') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <div class="account-input-form w-50">
+                        {{ form_start(formPassword) }}
+                        {{ form_row(formPassword.password) }}
+                        {{ form_row(formPassword.password_new) }}
+                        {{ form_row(formPassword.save) }}
+                        {{ form_end(formPassword) }}
+                    </div>
                 </div>
+                {# SECTION AVATAR CHANGE#}
                 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
                     <p class="h4">Change your avatar</p>
                     <hr>
                     <img src="{{ asset("uploads/avatars/#{app.user.avatarImage}")}}" alt="Avatar image" width="200" class="img-thumbnail">
                     <div class="w-25 mt-5 mb-3">
-                        {{ form_start(form) }}
+                        {{ form_start(formAvatar) }}
                         <div class="custom-file mb-3">
-                            {{ form_row(form.avatarImage) }}
+                            {{ form_row(formAvatar.avatarImage) }}
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                         <p class="text-success"><small id="file-info"></small></p>
-                        {{ form_row(form.save) }}
-                        {{ form_end(form) }}
+                        {{ form_row(formAvatar.save) }}
+                        {{ form_end(formAvatar) }}
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@ class AdminFixtures extends Fixture
         $user->setRoles(['ROLE_ADMIN']);
         $user->setFirstName('Adam');
         $user->setPassword($this->userPasswordEncoder->encodePassword($user,'admin'));
-        $user->setAvatarImage($user->getAvatarImage());
+        $user->setAvatarImage('default_profile_avatar.png');
 
 
         $manager->persist($user);
