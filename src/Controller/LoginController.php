@@ -12,20 +12,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class LoginController extends Controller
 {
 
-    public function index(LoginService $login)
+    public function index()
     {
-//        if(isset($_SESSION['token'])) {
-//            $client = $login->getClient();
-//            $login->getClientInfo($client);
-//            dump($_SESSION['token']);
-//        }
 
         return $this->render('login/index.html.twig');
     }
 
     /**
-     *@Route("/google/", name="google")
-    */
+     * @Route("/google/", name="google")
+     * @param LoginService $login
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function googleLogin(LoginService $login)
     {
         $url = $login->getAuthUrl();
@@ -36,11 +33,8 @@ class LoginController extends Controller
     /**
      *@Route("/auth", name="auth")
      */
-    public function googleAuth(LoginService $login)
+    public function googleAuth()
     {
-//        $client = $login->getClient();
-//        $login->getClientInfo($client);
-
         return $this->render('login/loader.html.twig', [
             'host' => $_SERVER['HTTP_HOST']
         ]);
