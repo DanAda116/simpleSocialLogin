@@ -1,8 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div class="card">
-    <div class="card-header">Users Posts</div>
+    <div class="card-header">
+        <span>Users posts</span>
+    </div>
     <div class="card-body">
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#newPost">Add new post</button>
+            </div>
+            {% include 'post/newPost.html.twig' %}
+        </div>
         <ul class="list-group posts">
             {% for post in posts %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
