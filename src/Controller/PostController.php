@@ -65,6 +65,25 @@ class PostController extends AbstractController
         }
 
         return $this->redirect($this->generateUrl('post'));
+    }
 
+    /**
+     * @Route("/post/delete/{id}", name="delete", methods={"GET","DELETE"})
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deletePost($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $post = $em->getRepository(Post::class)->find($id);
+
+        if(!$post || $post->getAuthor() != $this->getUser())
+            return $this->redirectToRoute('post');
+
+        $em->remove($post);
+        $em->flush();
+
+        return $this->redirectToRoute('post');
     }
 }

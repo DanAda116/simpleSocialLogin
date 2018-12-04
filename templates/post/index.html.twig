@@ -24,6 +24,11 @@
                 <div class="ml-3">
                     <span class="badge badge-primary">{{ post.createdAt | date('H:m:s') }}</span>
                 </div>
+                <div class="ml-3">
+                    {% if post.author == app.user %}
+                    <a href="{{ path('delete', {id : post.id}) }}" role="button" class="btn btn-danger btn-sm">Delete</a>
+                    {% endif %}
+                </div>
             </li>
             {% endfor %}
         </ul>
