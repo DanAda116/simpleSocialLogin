@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostAdd;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +16,8 @@ class PostController extends AbstractController
      * @Route("/post", name="post")
      * @IsGranted("ROLE_USER")
      */
-    public function index()
+    public function index(Request $request, PaginatorInterface $paginator)
     {
-        $repo = $this->getDoctrine()->getRepository(Post::class);
 
         $post = new Post();
 
@@ -25,9 +25,18 @@ class PostController extends AbstractController
             'action' => $this->generateUrl('post_POST')
         ));
 
-        $posts= $repo->findAll();
+        $repo = $this->getDoctrine()->getRepository(Post::class);
+
+        $query = $repo->findAllGetQuery();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('post/index.html.twig', [
-            'posts' => $posts,
+            'posts' => $pagination,
             'addPostForm' => $formAddPost->createView()
         ]);
     }
