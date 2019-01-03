@@ -8,24 +8,27 @@
 
 namespace App\Services;
 
-
-
-
-use Facebook\Exceptions\FacebookResponseException;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 
 class FacebookService
 {
     private $fb;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
-    public function __construct($appID, $appSecret)
+    public function __construct($appID, $appSecret, EntityManagerInterface $entityManager)
     {
         $this->fb = new Facebook([
             'app_id'                => $appID,
             'app_secret'            => $appSecret,
             'default_graph_version' => 'v2.10',
         ]);
+        $this->entityManager = $entityManager;
     }
 
     public function getLoginURL()
@@ -45,8 +48,10 @@ class FacebookService
     {
         $helper = $this->fb->getRedirectLoginHelper();
 
-        if(!isset($_SESSION['facebook_access_token']))
+
+        if(!(isset($_SESSION['facebook_access_token'])))
         {
+
             try {
                 $_SESSION['facebook_access_token'] = $helper->getAccessToken();
             } catch (FacebookSDKException $e) {
@@ -72,5 +77,21 @@ class FacebookService
         return $fbUserProfile;
     }
 
+    public function createUserFromFacebook($data)
+    {
+        $user = new User();
+
+        $user->setEmail($data['email']);
+        $user->setFirstName($data['name']);
+
+        $fileName = UploadService::saveAvatarImage($data['picture']['url']);
+
+        $user->setAvatarImage($fileName);
+        $user->setGoogleId($data['id']);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
 
 }

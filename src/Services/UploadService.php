@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -38,6 +37,20 @@ class UploadService
     public function getTargetDir()
     {
         return $this->targetDirectory;
+    }
+
+    public static function saveAvatarImage($url)
+    {
+        $content = file_get_contents($url);
+
+
+        $fileName = md5(uniqid()).'.jpg';
+        $file = 'uploads/avatars/'.$fileName;
+        $fp = fopen($file, "w");
+        fwrite($fp, $content);
+        fclose($fp);
+
+        return $fileName;
     }
 
 }

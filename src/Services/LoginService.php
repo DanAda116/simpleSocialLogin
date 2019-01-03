@@ -109,7 +109,7 @@ class LoginService
         $user->setEmail($data['email']);
         $user->setFirstName($data['fullname']);
 
-        $fileName = $this->saveAvatarImage($data['avatar_img']);
+        $fileName = UploadService::saveAvatarImage($data['avatar_img']);
 
         $user->setAvatarImage($fileName);
         $user->setGoogleId($data['id']);
@@ -117,19 +117,6 @@ class LoginService
         $this->entityManager->flush();
 
         return $user;
-    }
-
-    private function saveAvatarImage($url)
-    {
-        $content = file_get_contents($url);
-
-        $fileName = md5(uniqid()).'.jpg';
-        $file = $this->parameterBag->get('avatarDirectory').'/'.$fileName;
-        $fp = fopen($file, "w");
-        fwrite($fp, $content);
-        fclose($fp);
-
-        return $fileName;
     }
 }
 
