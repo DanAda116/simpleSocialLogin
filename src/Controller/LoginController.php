@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
+use App\Form\Register;
+use App\Services\FacebookService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\LoginService;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -14,7 +18,6 @@ class LoginController extends Controller
 
     public function index()
     {
-
         return $this->render('login/index.html.twig');
     }
 
@@ -60,5 +63,32 @@ class LoginController extends Controller
             'last_username' => $lastUsername,
             'data' => []
         ]);
+    }
+
+    /**
+     * @Route("/facebookLogin", name="facebookLogin")
+     * @param FacebookService $facebookService
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function facebookLoginURL(FacebookService $facebookService)
+    {
+        $url = $facebookService->getLoginURL();
+
+        return $this->redirect($url);
+    }
+
+    /**
+     * @Route("/fbcallback", name="fbcallback")
+     * @param FacebookService $facebookService
+     * @return Response
+     */
+    public function facebookLogin(FacebookService $facebookService)
+    {
+        $facebookService->login();
+        $profile = $facebookService->getUserData();
+
+        dump($profile);
+
+        return $this->render('login/index.html.twig');
     }
 }

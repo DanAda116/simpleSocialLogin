@@ -156,3 +156,18 @@ body {
 .avatar {
     width: 200px;
 }
+/* Register form */
+.register {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.register h3 {
+    padding: 0 0.6rem;
+}
+.register hr.bar {
+    flex: auto;
+    border: none;
+    height: 2px;
+    background: #313131;
+}

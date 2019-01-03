@@ -37,3 +37,8 @@ services:
     App\Services\UploadService:
         arguments:
           $targetDirectory: '%avatarDirectory%'
+
+    App\Services\FacebookService:
+        arguments:
+          $appID: '%env(FACE_APP_ID)%'
+          $appSecret: '%env(FACE_APP_SECRET)%'

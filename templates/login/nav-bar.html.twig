@@ -24,9 +24,15 @@
                 </li>
             {% else%}
                 <li class="nav-item">
+                    <a class="nav-link pointer" data-toggle="modal" data-target="#newPost">Register</a>
+                    {% include 'account/register.htm.twig' %}
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ path('login') }}" class="nav-link">Sign In</a>
                 </li>
             {% endif %}
         </ul>
     </div>
+
 </nav>

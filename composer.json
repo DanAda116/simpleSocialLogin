@@ -6,6 +6,8 @@
 		"ext-ctype": "*",
 		"ext-iconv": "*",
 		"doctrine/doctrine-fixtures-bundle": "^3.0",
+		"facebook/graph-sdk": "^5.7",
+		"friendsofsymfony/jsrouting-bundle": "^2.2",
 		"google/apiclient": "2.1.0",
 		"guzzlehttp/guzzle": "~6.0",
 		"knplabs/knp-paginator-bundle": "^2.8",
